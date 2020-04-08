@@ -25,17 +25,17 @@ const BootcampSchema = new moongoose.Schema({
 	},
 	address: {
 		type: String,
-		maxlength: [true, 'Please add an address'],
+		required: [true, 'Please add an address'],
 	},
 	location: {
 		type: {
-			type: String, // Don't do `{ location: { type: String } }`
-			enum: ['Point'], // 'location.type' must be 'Point'
-			required: true,
+			type: String,
+			enum: ['Point'],
+			// required: true,
 		},
 		coordinates: {
 			type: [Number],
-			required: true,
+			// required: true,
 			index: '2dsphere',
 		},
 		formattedAddress: String,
