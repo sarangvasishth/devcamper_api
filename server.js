@@ -1,13 +1,18 @@
+const path = require('path');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const colors = require('colors');
 const express = require('express');
+
+const fileupload = require('express-fileupload');
+
 const connectDB = require('./config/db');
 const errorHandler = require('./middleware/error');
 
 dotenv.config({ path: './config/config.env' });
 connectDB();
 const bootcamps = require('./routes/bootcamps');
+const courses = require('./routes/courses');
 
 const app = express();
 app.use(express.json());
@@ -17,7 +22,11 @@ if (process.env.NODE_ENV === 'development') {
 	app.use(morgan('dev'));
 }
 
+app.use(fileupload());
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use('/api/v1/bootcamps', bootcamps);
+app.use('/api/v1/courses', courses);
 
 app.use(errorHandler);
 
